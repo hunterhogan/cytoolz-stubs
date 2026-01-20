@@ -3,11 +3,22 @@ from typing import Any, Literal, overload
 
 from typing_extensions import TypeIs
 
+@overload
 def accumulate[T](
     binop: Callable[[T, T], T],
     seq: Iterable[T],
-    initial: object = ...,
-) -> Iterator[T]:
+) -> Iterator[T]: ...
+@overload
+def accumulate[T, U](
+    binop: Callable[[U, T], U],
+    seq: Iterable[T],
+    initial: U,
+) -> Iterator[U]: ...
+def accumulate(
+    binop: Callable[[Any, Any], Any],
+    seq: Iterable[Any],
+    initial: Any | None = ...,
+) -> Iterator[Any]:
     """Repeatedly apply binary function to a sequence, accumulating results.
 
     >>> import cytoolz as cz
@@ -178,16 +189,22 @@ def get[KT, VT](ind: KT, seq: Mapping[KT, VT], default: object = ...) -> VT: ...
 @overload
 def get[T](ind: int, seq: Sequence[T], default: object = ...) -> T: ...
 @overload
-def get[KT, VT](
-    ind: Iterable[KT],
-    seq: Mapping[KT, VT],
-    default: object = ...,
-) -> Iterator[VT]: ...
+def get[KT, VT](ind: list[KT], seq: Mapping[KT, VT]) -> Iterator[VT]: ...
 @overload
-def get[T](
-    ind: Iterable[int], seq: Sequence[T], default: object = ...
-) -> Iterator[T]: ...
-def get(ind: Iterable[int], seq: Sequence[Any], default: Any = ...) -> Iterator[Any]:
+def get[KT, VT, D](
+    ind: list[KT],
+    seq: Mapping[KT, VT],
+    default: D,
+) -> Iterator[VT | D]: ...
+@overload
+def get[T](ind: list[int], seq: Sequence[T]) -> Iterator[T]: ...
+@overload
+def get[T, D](ind: list[int], seq: Sequence[T], default: D) -> Iterator[T | D]: ...
+def get(
+    ind: object,
+    seq: Sequence[Any] | Mapping[Any, Any],
+    default: object = ...,
+) -> Any:
     """Get element in a sequence or dict.
 
     Provides standard indexing
@@ -570,9 +587,33 @@ def peekn[T](n: int, seq: Iterable[T]) -> tuple[tuple[T, ...], Iterator[T]]:
     [0, 1, 2, 3, 4]
     """
 
+@overload
+def pluck[KT, VT](
+    ind: KT,
+    seqs: Iterable[Mapping[KT, VT]],
+    default: object = ...,
+) -> Iterator[VT]: ...
+@overload
+def pluck[T](
+    ind: int,
+    seqs: Iterable[Sequence[T]],
+    default: object = ...,
+) -> Iterator[T]: ...
+@overload
+def pluck[KT, VT](
+    ind: list[KT],
+    seqs: Iterable[Mapping[KT, VT]],
+    default: object = ...,
+) -> Iterator[tuple[VT, ...]]: ...
+@overload
+def pluck[T](
+    ind: list[int],
+    seqs: Iterable[Sequence[T]],
+    default: object = ...,
+) -> Iterator[tuple[T, ...]]: ...
 def pluck(
-    ind: str | int | list[str] | list[int],
-    seqs: Iterable[Sequence[Any] | Mapping[str, Any] | Mapping[int, Any]],
+    ind: object,
+    seqs: Iterable[Sequence[Any] | Mapping[Any, Any]],
     default: object = ...,
 ) -> Iterator[Any]:
     """Plucks an element or several elements from each item in a sequence.
