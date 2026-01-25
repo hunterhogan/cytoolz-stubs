@@ -1,40 +1,45 @@
 [project]
-    dependencies    = ["pytest-stubtester>=0.1.1", "typing-extensions>=4.10.0"]
-    description     = "Type stubs for cytoolz"
-    name            = "cytoolz-stubs"
-    readme          = "README.md"
-    requires-python = ">=3.12"
-    version         = "0.3.5"
-
-[build-system]
-    build-backend = "uv_build"
-    requires      = ["uv_build>=0.9.18"]
+name = "cytoolz-stubs"
+version = "0.3.5"
+description = "Type stubs for cytoolz"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+  "typing-extensions>=4.10.0",
+]
 
 [dependency-groups]
-    dev = ["cytoolz>=1.1.0", "pytest-stubtester", "ruff>=0.14.9"]
+dev = ["cytoolz>=1.1.0", "pytest-stubtester", "ruff>=0.14.9"]
+
+[build-system]
+requires = ["uv_build>=0.9.18"]
+build-backend = "uv_build"
+
+[tool.ruff]
+lint.ignore = [
+  "C417",
+  "COM812",
+  "D401",
+  "E501",
+  "FIX002",
+  "PLC0415",
+  "PYI021",
+  "S608",
+  "SLF001",
+  "T201",
+  "TC003",
+  "TC006",
+  "TD002",
+  "TD003",
+  "TID252",
+]
+lint.select = ["ALL"]
+
+[tool.ruff.format]
+docstring-code-format = true
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
 
 [tool.uv.sources]
-    pytest-stubtester = { git = "https://github.com/OutSquareCapital/pytest-stubtester.git" }
-[tool.ruff]
-    lint.ignore = [
-        "C417",
-        "COM812",
-        "D401",
-        "E501",
-        "FIX002",
-        "PLC0415",
-        "PYI021",
-        "S608",
-        "SLF001",
-        "T201",
-        "TC003",
-        "TC006",
-        "TD002",
-        "TD003",
-        "TID252",
-    ]
-    lint.select = ["ALL"]
-    [tool.ruff.format]
-        docstring-code-format = true
-    [tool.ruff.lint.pydocstyle]
-        convention = "google"
+pytest-stubtester = { git = "https://github.com/OutSquareCapital/pytest-stubtester.git" }

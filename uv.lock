@@ -137,7 +137,6 @@ name = "cytoolz-stubs"
 version = "0.3.5"
 source = { editable = "." }
 dependencies = [
-    { name = "pytest-stubtester" },
     { name = "typing-extensions" },
 ]
 
@@ -149,10 +148,7 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [
-    { name = "pytest-stubtester", git = "https://github.com/OutSquareCapital/pytest-stubtester.git" },
-    { name = "typing-extensions", specifier = ">=4.10.0" },
-]
+requires-dist = [{ name = "typing-extensions", specifier = ">=4.10.0" }]
 
 [package.metadata.requires-dev]
 dev = [
